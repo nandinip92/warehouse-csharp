@@ -60,4 +60,13 @@ class Inventory
         var matchingProduct = GetProductByName(name);
         Stock[matchingProduct] = newStock;
     }
+    public int GetProductStock(string name){
+        var matchingProduct=GetProductByName(name);
+        return Stock[matchingProduct];
+
+    }
+    public void RestockProduct(string name,int quantity){
+        var existingStock = GetProductStock(name);
+        SetProductStock(name,existingStock+quantity);
+    }
 }
