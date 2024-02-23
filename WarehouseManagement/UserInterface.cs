@@ -40,7 +40,9 @@ class UserInterface
             Console.WriteLine("[3] Do a Stock Take");
             Console.WriteLine("[4] Exit");
             Console.WriteLine(">>>>>>>");
-            Console.Write($"{name}, please enter an action you would like to process (1/2/3/4) >>> ");
+            Console.Write(
+                $"{name}, please enter an action you would like to process (1/2/3/4) >>> "
+            );
             action = int.Parse(Console.ReadLine() ?? "4");
             switch (action)
             {
@@ -61,15 +63,22 @@ class UserInterface
                         {
                             employee.ProductRestock(productToRestock, quantityRestock);
                         }
+                        else
+                        {
+                            Console.WriteLine(
+                                "Sorry, please enter a valid quantity next time...!!!"
+                            );
+                        }
                     }
                     break;
                 case 3:
+                    employee.DoStockTake();
                     break;
 
                 default:
                     break;
             }
-        } while (action<4);
+        } while (action < 4);
     }
 }
 

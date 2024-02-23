@@ -25,4 +25,10 @@ class Employee
     {
         Inventory.RestockProduct(productName, quantity);
     }
+
+    public void DoStockTake()
+    {
+        Console.WriteLine($"Employee {Name} is doing a stock take...");
+        Console.WriteLine(Inventory);
+    }
 }
