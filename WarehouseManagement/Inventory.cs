@@ -8,13 +8,6 @@ class Inventory
 
     public override string ToString()
     {
-        // return string.Join(
-        //     '\n',
-        //     Stock.Select(productQuantityPair =>
-        //         $"Product {productQuantityPair.Key.Name}: {productQuantityPair.Value} in stock"
-        //     )
-        // );
-
         string border = String.Concat('\n', new string('-', 78), '\n');
         string headings = string.Format(
             "|{0,35} |{1,15} |{2,20} |",
@@ -51,7 +44,7 @@ class Inventory
 
     public Product GetProductByName(string name)
     {
-        //This function will return the Product from the register
+        //This method will return the Product from the register
         return _productRegister[name];
     }
 
@@ -60,13 +53,18 @@ class Inventory
         var matchingProduct = GetProductByName(name);
         Stock[matchingProduct] = newStock;
     }
-    public int GetProductStock(string name){
-        var matchingProduct=GetProductByName(name);
-        return Stock[matchingProduct];
 
+    public int GetProductStock(string name)
+    {
+        //This method return the stock quantity of the given product
+        var matchingProduct = GetProductByName(name);
+        return Stock[matchingProduct];
     }
-    public void RestockProduct(string name,int quantity){
+
+    public void RestockProduct(string name, int quantity)
+    {
+        //This method is for Adding the new stock quantity to the existing product
         var existingStock = GetProductStock(name);
-        SetProductStock(name,existingStock+quantity);
+        SetProductStock(name, existingStock + quantity);
     }
 }
