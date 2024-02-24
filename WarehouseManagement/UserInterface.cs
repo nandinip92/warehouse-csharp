@@ -4,10 +4,18 @@ class UserInterface
 {
     public required Shop Shop { private get; init; }
 
+    public void PrintWelcomeBanner(string name)
+    {
+        Console.WriteLine(new string('*', 50));
+        Console.WriteLine($"*\t\t WELCOME {name}\t\t*");
+        Console.WriteLine(new string('*', 50));
+    }
+
     public void run()
     {
         while (true)
         {
+            PrintWelcomeBanner("TO THE SHOP");
             Console.WriteLine("What is your name??");
             var name = Console.ReadLine() ?? "";
             Console.Write(
@@ -19,15 +27,17 @@ class UserInterface
                 {
                     GreetEmployee(name);
                 }
+                else if (role == Role.Customer)
+                {
+                    GreetCustomer(name);
+                }
             }
         }
     }
 
     private void GreetEmployee(string name)
     {
-        Console.WriteLine("*******************************");
-        Console.WriteLine("*       WELCOME EMPLOYEE      *");
-        Console.WriteLine("*******************************");
+        PrintWelcomeBanner("EMPLOYEE");
 
         var employee = Shop.WelcomeEmployee(name);
         int action = 4;
@@ -56,7 +66,7 @@ class UserInterface
                         $"Which product would {name} like to register new stock for? >>> "
                     );
                     var productToRestock = Console.ReadLine() ?? "";
-                    if (employee.CheckStockOfProduct(name))
+                    if (employee.CheckStockOfProduct(productToRestock))
                     {
                         Console.Write($"What quantity of stock would {name} like to add?  >>>");
                         if (int.TryParse(Console.ReadLine(), out var quantityRestock))
@@ -76,9 +86,47 @@ class UserInterface
                     break;
 
                 default:
+                    Console.WriteLine($"\n\tBYE BYE Employe {name}. See you soon....!!!\n\n");
                     break;
             }
         } while (action < 4);
+    }
+
+    public void GreetCustomer(string name)
+    {
+        PrintWelcomeBanner("Customer");
+        var customer = Shop.WelcomeCustomer(name);
+        int action = 3;
+        do
+        {
+            Console.WriteLine(">>>>>>>");
+            Console.WriteLine("Why are you here ??");
+            Console.WriteLine("[1] Add an item to the Basket");
+            Console.WriteLine("[2] View Basket");
+            Console.WriteLine("[3] Checkout");
+            Console.WriteLine(">>>>>>>");
+            Console.Write(
+                $"{name}, please enter an action you would like to process (1/2/3) >>> "
+            );
+            action = int.Parse(Console.ReadLine() ?? "3");
+            switch (action)
+            {
+                case 1:
+                    Console.Write($"{name}, Which product would you like to add? >>>");
+                    var productToAdd = Console.ReadLine() ?? "";
+                    customer.AddToBasket(productToAdd);
+                    break;
+                case 2:
+                    customer.ViewBasket();
+                    break;
+                case 3:
+                    customer.CheckOut();
+                    Shop.SayGoodByeToCustomer(customer);
+                    break;
+                default:
+                    break;
+            }
+        } while (action < 3);
     }
 }
 

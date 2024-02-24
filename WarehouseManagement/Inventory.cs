@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace Warehouse.WarehouseManagement;
 
 class Inventory
@@ -61,10 +63,28 @@ class Inventory
         return Stock[matchingProduct];
     }
 
-    public void RestockProduct(string name, int quantity)
+    public void RegisterStockIncrease(string productName, int quantity)
     {
         //This method is for Adding the new stock quantity to the existing product
-        var existingStock = GetProductStock(name);
-        SetProductStock(name, existingStock + quantity);
+        var existingStock = GetProductStock(productName);
+        SetProductStock(productName, existingStock + quantity);
+    }
+
+    public void RegisterStockDecrease(string productName, int quantity)
+    {
+        //This method will retrieve the product Stock and check
+        // if the given quantity is available or not
+        var existingStock = GetProductStock(productName);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(quantity, existingStock);
+        SetProductStock(productName, existingStock - quantity);
+    }
+
+    public Product FetchProductFromShelf(string name)
+    {
+        //Gets the product from the Register
+        // And update the stock quantity
+        var existingStock = GetProductByName(name);
+        RegisterStockDecrease(name, 1);
+        return existingStock;
     }
 }
