@@ -23,7 +23,7 @@ class Employee
 
     public void ProductRestock(string productName, int quantity)
     {
-        Inventory.RestockProduct(productName, quantity);
+        Inventory.RegisterStockIncrease(productName, quantity);
     }
 
     public void DoStockTake()
